@@ -18,7 +18,7 @@ function check_correct {
 function add_repositories {
     RESULT=false
 
-    # add-apt-repository -y ppa:andrei-pozolotin/maven3 && \  # MAVEN
+    ## add-apt-repository -y ppa:andrei-pozolotin/maven3 && \  # MAVEN
     add-apt-repository -y ppa:webupd8team/java && \  # JAVA
     apt-get update && RESULT=true
 
@@ -84,6 +84,24 @@ function install_eclipse {
     check_correct $RESULT
 }
 
+function install_mysql {
+    RESULT=false
+
+    echo "Instalando MYSQL"
+
+    { \
+		echo mysql-server mysql-community-server/root-pass password 'root'; \
+		echo mysql-server mysql-community-server/re-root-pass password 'root'; \
+		echo mysql-server mysql-community-server/remove-test-db select false; \
+	} | /usr/bin/debconf-set-selections
+    apt-get install -y mysql-server=$1
+
+    systemctl restart mysql
+    systemctl enable mysql
+
+    check_correct $RESULT
+}
+
 
 function main {
     echo "Actualizando el sistema"
@@ -102,6 +120,9 @@ function main {
 
     separator
     install_tomcat 7
+
+    separator
+    install_mysql 5.7.15-0ubuntu0.16.04.1
 
     separator
     install_java 8
