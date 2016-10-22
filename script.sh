@@ -86,20 +86,28 @@ function install_eclipse {
 
 function install_mysql {
     RESULT=false
+    RESULT2=false
+    RESULT3=false
 
     echo "Instalando MYSQL"
 
     { \
-		echo mysql-server mysql-community-server/root-pass password 'root'; \
-		echo mysql-server mysql-community-server/re-root-pass password 'root'; \
-		echo mysql-server mysql-community-server/remove-test-db select false; \
+		echo mysql-server-$1 mysql-server/root_password password root; \
+		echo mysql-server-$1 mysql-server/root_password_again password root; \
+		echo mysql-server-$1 mysql-server/remove-test-db select false; \
 	} | /usr/bin/debconf-set-selections
-    apt-get install -y mysql-server=$1
-
-    systemctl restart mysql
-    systemctl enable mysql
+    apt-get install -y mysql-server-$1 && RESULT=true
 
     check_correct $RESULT
+
+    systemctl restart mysql && \
+    systemctl enable mysql && RESULT2=true
+
+    check_correct $RESULT2
+
+    apt-get install -y gmysqlcc && RESULT3=true
+
+    check_correct $RESULT3
 }
 
 
@@ -122,7 +130,7 @@ function main {
     install_tomcat 7
 
     separator
-    install_mysql 5.7.15-0ubuntu0.16.04.1
+    install_mysql 5.7
 
     separator
     install_java 8

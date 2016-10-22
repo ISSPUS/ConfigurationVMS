@@ -9,5 +9,6 @@ In order to use it, please, run the following command:
 sudo apt-get install dos2unix && \
 wget https://raw.githubusercontent.com/EGCG2/ConfigurationVMS/master/script.sh && \
 dos2unix script.sh && \
-sudo bash script.sh
+sudo bash script.sh && \
+rm script.sh
 ```
