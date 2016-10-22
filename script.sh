@@ -89,6 +89,9 @@ function main {
     echo "Actualizando el sistema"
     apt-get update && apt-get upgrade -y
 
+    echo "Añadiendo usuario al grupo vboxsf para permitir compartir carpetas"
+    usermod -a -G vboxsf usuario
+
     add_repositories
 
     separator
