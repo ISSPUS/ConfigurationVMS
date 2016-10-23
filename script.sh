@@ -41,9 +41,9 @@ function install_java {
 
 function install_maven {
     RESULT=false
-    echo "Instalando maven3..."
+    echo "Instalando maven..."
 
-    apt-get install -y maven3 && RESULT=true
+    apt-get install -y maven && RESULT=true
 
     check_correct $RESULT
 }
@@ -113,7 +113,7 @@ function install_mysql {
 
 function main {
     echo "Actualizando el sistema"
-    apt-get update && apt-get upgrade -y && apt-get install -y apt-utils
+    apt-get update && apt-get upgrade -y && apt-get install -y apt-utils software-properties-common
 
     echo "Añadiendo usuario al grupo vboxsf para permitir compartir carpetas"
     usermod -a -G vboxsf usuario
