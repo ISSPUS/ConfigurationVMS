@@ -70,12 +70,25 @@ function install_tomcat {
 
 }
 
+function install_tomcat2 {
+    RESULT=false
+    TOMCAT_MAJOR=$1
+    TOMCAT_VERSION=$2
+    echo "Instalando tomcat ($TOMCAT_MAJOR/v$TOMCAT_VERSION)..."
+
+    apt-get install -y curl && \
+    bash -c "curl -SL https://apache.uvigo.es/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | \
+        tar -C /opt/ -xz" && RESULT=true
+
+    check_correct $RESULT
+
+}
+
 function install_eclipse {
     RESULT=false
     echo "Instalando eclipse ($1)..."
 
-    apt-get install -y curl && \
-    bash -c "curl -SL http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/oxygen/M2/eclipse-$1-linux-gtk-x86_64.tar.gz | \
+    bash -c "curl -SL http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/$1-linux-gtk-x86_64.tar.gz | \
         tar -C /opt/ -xz" && \
     ln -s /opt/eclipse/eclipse /usr/bin/eclipse && \
     bash -c "curl -SL https://raw.githubusercontent.com/EGCG2/ConfigurationVMS/master/Eclipse/Eclipse.desktop -o /usr/share/applications/Eclipse.desktop" && \
@@ -113,7 +126,7 @@ function install_mysql {
 
 function main {
     echo "Actualizando el sistema"
-    apt-get update && apt-get upgrade -y && apt-get install -y apt-utils software-properties-common
+    apt-get update && apt-get upgrade -y && apt-get install -y apt-utils software-properties-common curl
 
     echo "Añadiendo usuario al grupo vboxsf para permitir compartir carpetas"
     usermod -a -G vboxsf usuario
@@ -127,7 +140,7 @@ function main {
     install_maven
 
     separator
-    install_tomcat 7
+    install_tomcat2 7 7.0.32
 
     separator
     install_mysql 5.7
@@ -136,7 +149,7 @@ function main {
     install_java 8
 
     separator
-    install_eclipse jee-oxygen-M2
+    install_eclipse neon/1a/eclipse-jee-neon-1a
 
     separator
     echo "Finalizado ! !"
