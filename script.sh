@@ -77,7 +77,7 @@ function install_tomcat2 {
     echo "Instalando tomcat ($TOMCAT_MAJOR/v$TOMCAT_VERSION)..."
 
     apt-get install -y curl && \
-    bash -c "curl -SL https://apache.uvigo.es/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | \
+    bash -c "curl -SL http://apache.uvigo.es/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | \
         tar -C /opt/ -xz" && RESULT=true
 
     check_correct $RESULT
