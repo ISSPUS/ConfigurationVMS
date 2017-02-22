@@ -61,6 +61,7 @@ function install_tomcat {
     # Configurar Tomcat
     # sed -i.bak 's/JAVA_OPTS.*/JAVA_OPTS="-Djava.security.egd=file:\/dev\/\.\/urandom -Djava\.awt\.headless=true -Xmx512m -XX:MaxPermSize=256m -XX:\+UseConcMarkSweepGC"/g' /etc/default/tomcat$1 && RESULT=true
 
+    bash -c "chown -R usuario:usuario /opt/"
 
     check_correct $RESULT
 
