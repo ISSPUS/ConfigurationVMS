@@ -49,28 +49,6 @@ function install_maven {
 }
 
 function install_tomcat {
-    RESULT=false; RESULT2=false
-    echo "Instalando tomcat$1..."
-
-    apt-get install -y tomcat$1 && \
-    sed -i.bak 's/JAVA_OPTS.*/JAVA_OPTS="-Djava.security.egd=file:\/dev\/\.\/urandom -Djava\.awt\.headless=true -Xmx512m -XX:MaxPermSize=256m -XX:\+UseConcMarkSweepGC"/g' /etc/default/tomcat$1 && \
-    RESULT=true
-
-    check_correct $RESULT
-
-     if [ $RESULT ]; then
-        echo "Habilitandp tomcat$1..."
-
-        systemctl restart tomcat$1 && \
-        systemctl enable tomcat$1 && \
-        RESULT2=true
-
-        check_correct $RESULT2
-    fi
-
-}
-
-function install_tomcat2 {
     RESULT=false
     TOMCAT_MAJOR=$1
     TOMCAT_VERSION=$2
@@ -79,6 +57,10 @@ function install_tomcat2 {
     apt-get install -y curl && \
     bash -c "curl -SL http://apache.uvigo.es/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | \
         tar -C /opt/ -xz" && RESULT=true
+
+    # Configurar Tomcat
+    # sed -i.bak 's/JAVA_OPTS.*/JAVA_OPTS="-Djava.security.egd=file:\/dev\/\.\/urandom -Djava\.awt\.headless=true -Xmx512m -XX:MaxPermSize=256m -XX:\+UseConcMarkSweepGC"/g' /etc/default/tomcat$1 && RESULT=true
+
 
     check_correct $RESULT
 
@@ -91,7 +73,7 @@ function install_eclipse {
     bash -c "curl -SL http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/$1-linux-gtk-x86_64.tar.gz | \
         tar -C /opt/ -xz" && \
     ln -s /opt/eclipse/eclipse /usr/bin/eclipse && \
-    bash -c "curl -SL https://raw.githubusercontent.com/EGCG2/ConfigurationVMS/master/Eclipse/Eclipse.desktop -o /usr/share/applications/Eclipse.desktop" && \
+    bash -c "curl -SL https://raw.githubusercontent.com/ISSPUS/ConfigurationVMS/master/Eclipse/Eclipse.desktop -o /usr/share/applications/Eclipse.desktop" && \
     chmod +x /usr/bin/eclipse && RESULT=true
 
     check_correct $RESULT
@@ -134,22 +116,19 @@ function main {
     add_repositories
 
     separator
-    install_java 7
+    install_java 8
 
     separator
     install_maven
 
     separator
-    install_tomcat2 7 7.0.72
+    install_tomcat 8 8.5.11
 
     separator
     install_mysql 5.7
 
     separator
-    install_java 8
-
-    separator
-    install_eclipse neon/1a/eclipse-jee-neon-1a
+    install_eclipse neon/2/eclipse-jee-neon-2
 
     separator
     echo "Finalizado ! !"
