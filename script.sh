@@ -123,7 +123,7 @@ function main {
     install_maven
 
     separator
-    install_tomcat 8 8.5.11
+    install_tomcat 7 7.0.75
 
     separator
     install_mysql 5.7
