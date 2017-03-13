@@ -55,6 +55,8 @@ RUN chmod +x /entrypoint.sh
 
 VOLUME /var/lib/mysql
 
+RUN chmod -R 777 /home
+
 RUN bash -c "curl -SL http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/$ECLIPSE-linux-gtk-x86_64.tar.gz | \
         tar -C /opt/ -xz" \
     && ln -s /opt/eclipse/eclipse /usr/bin/eclipse \
@@ -66,7 +68,6 @@ VOLUME /root/workspace
 EXPOSE 3306
     # Tomcat
 EXPOSE 8080
-
 
 RUN sed -i '2i exec eclipse &' /usr/local/bin/docker-entrypoint.sh
 
