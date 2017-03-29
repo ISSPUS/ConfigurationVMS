@@ -74,7 +74,7 @@ function install_eclipse {
     bash -c "curl -SL http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/$1-linux-gtk-x86_64.tar.gz | \
         tar -C /opt/ -xz" && \
     ln -s /opt/eclipse/eclipse /usr/bin/eclipse && \
-    bash -c "curl -SL https://raw.githubusercontent.com/ISSPUS/ConfigurationVMS/master/Eclipse/Eclipse.desktop -o /usr/share/applications/Eclipse.desktop" && \
+    bash -c "curl -SL https://raw.githubusercontent.com/Shipmee/ConfigurationVMS/master/Eclipse/Eclipse.desktop -o /usr/share/applications/Eclipse.desktop" && \
     chmod +x /usr/bin/eclipse && RESULT=true
 
     check_correct $RESULT
